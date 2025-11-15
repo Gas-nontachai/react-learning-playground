@@ -2,14 +2,18 @@
 
 import Link from 'next/link';
 import {usePathname} from 'next/navigation';
-import {useMemo, useState} from 'react';
+import {ComponentProps, useMemo, useState} from 'react';
 import clsx from 'clsx';
 import {useTranslations} from 'next-intl';
 import type {Locale} from '@/lib/i18n';
 import {orderedLessons} from '@/lib/lessons-config';
 import {useProgress} from '@/lib/progress';
 
-export function Sidebar({locale}: {locale: Locale}) {
+type SidebarProps = ComponentProps<'aside'> & {
+  locale: Locale;
+};
+
+export function Sidebar({locale, className, ...props}: SidebarProps) {
   const pathname = usePathname();
   const [query, setQuery] = useState('');
   const {completed, resetProgress} = useProgress();
@@ -41,7 +45,13 @@ export function Sidebar({locale}: {locale: Locale}) {
   }, [filteredLessons]);
 
   return (
-    <aside className="flex h-full flex-col gap-4 border-b border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900 lg:w-72 lg:border-b-0 lg:border-r">
+    <aside
+      {...props}
+      className={clsx(
+        'flex h-full flex-col gap-4 border-b border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900 lg:w-72 lg:border-b-0 lg:border-r',
+        className
+      )}
+    >
       <div>
         <label className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
           {tSidebar('search')}
