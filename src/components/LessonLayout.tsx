@@ -1,10 +1,9 @@
 import Link from 'next/link';
-import type {ReactNode} from 'react';
-import {Playground} from './Playground';
-import type {Lesson} from '@/lib/lessons-config';
-import type {Locale} from '@/lib/i18n';
-import {LanguageSwitcher} from './LanguageSwitcher';
-import {ProgressAction} from './ProgressAction';
+import type { ReactNode } from 'react';
+import { Playground } from './Playground';
+import type { Lesson } from '@/lib/lessons-config';
+import type { Locale } from '@/lib/i18n';
+import { ProgressAction } from './ProgressAction';
 
 interface LessonLayoutProps {
   locale: Locale;
@@ -14,16 +13,13 @@ interface LessonLayoutProps {
   next: Lesson | null;
 }
 
-export function LessonLayout({locale, lesson, children, previous, next}: LessonLayoutProps) {
+export function LessonLayout({ locale, lesson, children, previous, next }: LessonLayoutProps) {
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 lg:flex-row lg:items-center lg:justify-between">
-        <div className="flex items-center gap-3">
-          <LanguageSwitcher locale={locale} />
-          <span className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-300">
-            {lesson.section}
-          </span>
-        </div>
+        <span className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-300">
+          {lesson.section}
+        </span>
         <ProgressAction slug={lesson.slug} />
       </div>
       <div className="grid gap-6 lg:grid-cols-2">

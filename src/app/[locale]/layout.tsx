@@ -1,15 +1,16 @@
-import {NextIntlClientProvider} from 'next-intl';
-import {ReactNode} from 'react';
-import {notFound} from 'next/navigation';
-import {Sidebar} from '@/components/Sidebar';
-import {ThemeToggle} from '@/components/ThemeToggle';
-import {getMessages, isLocale, locales, type Locale} from '@/lib/i18n';
-import {siteMetadata} from '@/lib/site-metadata';
+import { NextIntlClientProvider } from 'next-intl';
+import { ReactNode } from 'react';
+import { notFound } from 'next/navigation';
+import { Sidebar } from '@/components/Sidebar';
+import { ThemeToggle } from '@/components/ThemeToggle';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { getMessages, isLocale, locales, type Locale } from '@/lib/i18n';
+import { siteMetadata } from '@/lib/site-metadata';
 
 export const metadata = siteMetadata;
 
 export function generateStaticParams() {
-  return locales.map((locale) => ({locale}));
+  return locales.map((locale) => ({ locale }));
 }
 
 export default async function LocaleLayout({
@@ -17,9 +18,9 @@ export default async function LocaleLayout({
   params
 }: {
   children: ReactNode;
-  params: Promise<{locale: string}>;
+  params: Promise<{ locale: string }>;
 }) {
-  const {locale} = await params;
+  const { locale } = await params;
 
   if (!isLocale(locale)) {
     notFound();
@@ -37,7 +38,10 @@ export default async function LocaleLayout({
               <p className="text-sm text-slate-500 dark:text-slate-400">React Learning Playground</p>
               <p className="text-lg font-semibold">{messages.app?.title ?? 'Playground'}</p>
             </div>
-            <ThemeToggle />
+            <div className="flex items-center gap-3">
+              <ThemeToggle />
+              <LanguageSwitcher locale={locale} />
+            </div>
           </header>
           <main className="flex-1 p-6">{children}</main>
         </div>
