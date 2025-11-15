@@ -22,6 +22,24 @@ export function LessonLayout({ locale, lesson, children, previous, next }: Lesso
         </span>
         <ProgressAction slug={lesson.slug} />
       </div>
+
+      <nav className="flex flex-col gap-3 text-sm md:flex-row md:items-center md:justify-between">
+        {previous ? (
+          <Link className="text-slate-600 hover:text-slate-900 dark:text-slate-300" href={`/${locale}/lesson/${previous.slug}`}>
+            ← {previous.title[locale]}
+          </Link>
+        ) : (
+          <span className="text-slate-400">—</span>
+        )}
+        {next ? (
+          <Link className="text-right text-slate-600 hover:text-slate-900 dark:text-slate-300" href={`/${locale}/lesson/${next.slug}`}>
+            {next.title[locale]} →
+          </Link>
+        ) : (
+          <span className="text-slate-400">—</span>
+        )}
+      </nav>
+
       <div className="grid gap-6 lg:grid-cols-2">
         <article className="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
           <header className="space-y-2">
@@ -30,22 +48,6 @@ export function LessonLayout({ locale, lesson, children, previous, next }: Lesso
             <p className="text-slate-600 dark:text-slate-300">{lesson.summary[locale]}</p>
           </header>
           <div className="prose prose-slate max-w-none dark:prose-invert">{children}</div>
-          <nav className="flex flex-col gap-3 border-t border-slate-100 pt-4 text-sm dark:border-slate-800 md:flex-row md:items-center md:justify-between">
-            {previous ? (
-              <Link className="text-slate-600 hover:text-slate-900 dark:text-slate-300" href={`/${locale}/lesson/${previous.slug}`}>
-                ← {previous.title[locale]}
-              </Link>
-            ) : (
-              <span className="text-slate-400">—</span>
-            )}
-            {next ? (
-              <Link className="text-right text-slate-600 hover:text-slate-900 dark:text-slate-300" href={`/${locale}/lesson/${next.slug}`}>
-                {next.title[locale]} →
-              </Link>
-            ) : (
-              <span className="text-slate-400">—</span>
-            )}
-          </nav>
         </article>
         <div className="min-h-[520px]">
           <Playground code={lesson.defaultCode} />
