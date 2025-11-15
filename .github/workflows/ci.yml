@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+      - deploy
+      - dev
       - develop
       - "feature/**"
   pull_request:
@@ -41,3 +43,4 @@ jobs:
           path: .next
           if-no-files-found: error
           retention-days: 7
+          include-hidden-files: true

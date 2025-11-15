@@ -1,6 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
+import type {Route} from 'next';
 import {usePathname, useRouter} from 'next/navigation';
 import {useTranslations} from 'next-intl';
 import type {Locale} from '@/lib/i18n';
@@ -11,11 +12,11 @@ export function LanguageSwitcher({locale}: {locale: Locale}) {
   const router = useRouter();
   const t = useTranslations('language');
 
-  const buildHref = (target: Locale) => {
+  const buildHref = (target: Locale): Route => {
     const segments = pathname?.split('/').filter(Boolean) ?? [];
-    if (!segments.length) return `/${target}`;
+    if (!segments.length) return `/${target}` as Route;
     segments[0] = target;
-    return `/${segments.join('/')}`;
+    return `/${segments.join('/')}` as Route;
   };
 
   return (
