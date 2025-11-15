@@ -1,0 +1,36 @@
+{
+  "app": {
+    "title": "React Learning Playground",
+    "description": "Bilingual React roadmap with MDX lessons and a live Sandpack playground"
+  },
+  "sidebar": {
+    "search": "Search lessons",
+    "allLessons": "All lessons",
+    "completed": "Completed"
+  },
+  "lesson": {
+    "markComplete": "Mark lesson as complete",
+    "completed": "Lesson completed",
+    "resetProgress": "Reset progress",
+    "next": "Next lesson",
+    "previous": "Previous lesson",
+    "openLesson": "Open lesson"
+  },
+  "language": {
+    "th": "TH",
+    "en": "EN"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "home": {
+    "welcome": "Learn React from zero with Thai explanations and an interactive playground",
+    "cta": "Start learning",
+    "progress": "Your progress"
+  },
+  "playground": {
+    "title": "Playground",
+    "reset": "Reset code"
+  }
+}
