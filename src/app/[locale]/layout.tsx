@@ -1,15 +1,12 @@
-import type {Metadata} from 'next';
 import {NextIntlClientProvider} from 'next-intl';
 import {ReactNode} from 'react';
 import {notFound} from 'next/navigation';
 import {Sidebar} from '@/components/Sidebar';
 import {ThemeToggle} from '@/components/ThemeToggle';
 import {getMessages, isLocale, locales, type Locale} from '@/lib/i18n';
+import {siteMetadata} from '@/lib/site-metadata';
 
-export const metadata: Metadata = {
-  title: 'React Learning Playground',
-  description: 'Learn React with Thai + English MDX content and a Sandpack playground.'
-};
+export const metadata = siteMetadata;
 
 export function generateStaticParams() {
   return locales.map((locale) => ({locale}));
