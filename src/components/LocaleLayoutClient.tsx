@@ -3,9 +3,11 @@
 import { ReactNode, useState } from 'react';
 import clsx from 'clsx';
 import type { Locale } from '@/lib/i18n';
+import Image from 'next/image'
 import { Sidebar } from '@/components/Sidebar';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import LogoImg from '@/app/icon.svg';
 
 type LocaleLayoutClientProps = {
   locale: Locale;
@@ -40,7 +42,7 @@ export function LocaleLayoutClient({ locale, appTitle, children }: LocaleLayoutC
       />
 
       <div className="flex flex-1 flex-col">
-        <header className="flex flex-col gap-4 border-b border-slate-200 bg-white px-6 py-4 dark:border-slate-800 dark:bg-slate-900 sm:flex-row sm:items-center sm:justify-between">
+        <header className="flex gap-4 border-b border-slate-200 bg-white px-6 py-4 dark:border-slate-800 dark:bg-slate-900 flex-row items-center justify-between">
           <div className="flex items-center gap-3">
             <button
               type="button"
@@ -60,9 +62,17 @@ export function LocaleLayoutClient({ locale, appTitle, children }: LocaleLayoutC
               )}
             </button>
 
-            <div>
+            <div className='hidden lg:block'>
               <p className="text-sm text-slate-500 dark:text-slate-400">React Learning Playground</p>
               <p className="text-lg font-semibold">{appTitle}</p>
+            </div>
+            <div className='block lg:hidden'>
+              <Image
+                src={LogoImg}
+                width={30}
+                height={30}
+                alt="React Learning Playground Logo"
+              />
             </div>
           </div>
           <div className="flex items-center gap-3">
