@@ -35,7 +35,7 @@ export function LessonLayout({ locale, lesson, children, previous, next }: Lesso
         <ProgressAction slug={lesson.slug} />
       </div>
 
-      <nav className="flex flex-col gap-3 text-sm md:flex-row md:items-center md:justify-between">
+      <nav className="flex gap-3 text-sm flex-row items-center justify-between">
         {previous ? (
           <Link
             className="group inline-flex items-center gap-2 rounded-lg px-3 py-2 text-slate-600 transition-all hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100"
