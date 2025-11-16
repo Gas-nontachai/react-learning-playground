@@ -3,7 +3,7 @@ import {locales} from './i18n';
 
 const FALLBACK_URL = 'https://react-learning-playground.dev';
 export const siteName = 'React Learning Playground';
-export const siteDescription = 'Bilingual React learning path with sandbox playground for Thai beginners.';
+export const siteDescription = 'คอร์ส React ภาษาไทยที่ปูพื้นฐานการสร้างเว็บด้วยตัวอย่างโค้ดจริงและ Playground ที่ลองเล่นได้ทันที.';
 
 function resolveSiteUrl() {
   const envUrl = process.env.NEXT_PUBLIC_SITE_URL;
@@ -41,7 +41,11 @@ export const siteMetadata: Metadata = {
     'Thai React tutorial',
     'Interactive React exercises',
     'Frontend sandbox',
-    'Learn React in Thai'
+    'Learn React in Thai',
+    'สอน React ภาษาไทย',
+    'เรียนเขียนเว็บ',
+    'React สำหรับมือใหม่',
+    'คอร์ส React ฟรี'
   ],
   authors: [{name: siteName}],
   creator: siteName,

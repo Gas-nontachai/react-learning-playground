@@ -28,7 +28,7 @@ export default function OpenGraphImage() {
           {siteName}
         </p>
         <h1 style={{fontSize: 86, lineHeight: 1.1, margin: '20px 0'}}>
-          เรียน React แบบสองภาษา
+          คอร์ส React ภาษาไทยสำหรับมือใหม่สายเว็บ
         </h1>
         <p style={{fontSize: 36, maxWidth: '60%', color: '#e0f2fe'}}>{siteDescription}</p>
         <div
@@ -48,7 +48,7 @@ export default function OpenGraphImage() {
               color: '#f8fafc'
             }}
           >
-            Interactive lessons
+            Thai + English copy
           </span>
           <span
             style={{
@@ -57,7 +57,7 @@ export default function OpenGraphImage() {
               border: '2px solid rgba(248, 250, 252, 0.4)'
             }}
           >
-            Sandpack playground
+            Mini projects & Playground
           </span>
         </div>
       </div>
