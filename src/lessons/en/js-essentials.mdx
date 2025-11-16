@@ -1,15 +1,58 @@
-# 0.2 JavaScript essentials
+0.2 Essential JavaScript
 
-Review the must-know ES6 syntax and patterns before touching React.
+This section summarizes the key JavaScript syntax and ES6 features you need before learning React.
+The goal is to help you read React code smoothly without getting stuck on JavaScript fundamentals.
 
-## Key ideas
-1. Connect the topic to the big picture of **Section 0 – Fundamentals**
-2. Translate the new vocabulary into your own words to improve retention
-3. Read the code sample aloud so you can reason about each line
+Core Concepts
+1. Understand that this lesson is part of Section 0 – Fundamentals and prepares the JavaScript skills you will use constantly in React.
+2. Connect new terms like let, const, arrow function, array methods to real-life concepts such as keeping lists, items, or general data.
+3. Read each code example and try explaining in your own words what the code is doing.
 
-## Workshop
-- Modify the playground code and describe what changed
-- Write down any open questions you still have
-- Share your experiments with a study buddy or community
+JavaScript Topics You Need for React
 
-> 💡 Use the playground on the right to experiment with the code and reset any time.
+1. let and const
+Used to declare variables.
+- let — use when the value will change
+- const — use when the value should remain constant
+
+Example:
+```js
+let count = 0;
+count = count + 1;
+const name = "React";
+```
+
+2. Arrow Function
+A shorter and cleaner way to write functions, heavily used in React.
+```js
+const add = (a, b) => a + b;
+```
+
+3. Objects and Arrays
+The fundamental data types used everywhere in React.
+```js
+const user = { name: "Nontachai", age: 20 };
+const numbers = [1, 2, 3];
+```
+
+4. Essential Array Methods
+map, filter, find, some, every
+Example:
+```js
+const numbersList = [1, 2, 3];
+const doubled = numbersList.map(n => n * 2);
+```
+
+5. Destructuring
+Allows you to extract values from arrays or objects.
+```js
+const userInfo = { name: "Nontachai", age: 20 };
+const { name: userName, age: userAge } = userInfo;
+```
+
+6. Spread Syntax
+Used to copy or merge arrays and objects.
+```js
+const nums = [1, 2, 3];
+const moreNums = [...nums, 4];
+```
