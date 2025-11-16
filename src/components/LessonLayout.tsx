@@ -82,10 +82,8 @@ export function LessonLayout({ locale, lesson, children, previous, next }: Lesso
         <article
           className={clsx(
             'relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 ease-out dark:border-slate-800 dark:bg-slate-900',
-            hasPlayground && 'lg:flex-[0_0_440px]',
-            isCollapsed && hasPlayground
-              ? 'flex-[0_0_0px] opacity-0 lg:flex-[0_0_0px]'
-              : 'p-6 opacity-100 space-y-4'
+            hasPlayground && (isCollapsed ? 'lg:flex-[0_0_0px]' : 'lg:flex-[0_0_440px]'),
+            isCollapsed && hasPlayground ? 'flex-[0_0_0px] opacity-0' : 'p-6 opacity-100 space-y-4'
           )}
           aria-hidden={isCollapsed}
         >
