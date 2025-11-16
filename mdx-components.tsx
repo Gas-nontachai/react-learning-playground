@@ -50,7 +50,23 @@ const baseComponents: MDXComponents = {
     <code
       {...props}
       className={clsx(
-        'rounded bg-slate-100 px-1.5 py-0.5 font-mono text-sm text-slate-700 dark:bg-slate-800 dark:text-slate-200',
+        'inline-flex items-center rounded-md font-mono text-[0.875em] font-medium',
+        'px-2 py-0.5 transition-colors duration-200',
+
+        'bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50',
+        'text-purple-900',
+        'shadow-sm shadow-purple-200/50',
+
+        'dark:bg-gradient-to-br dark:from-purple-950 dark:via-fuchsia-950 dark:to-indigo-950',
+        'dark:text-purple-100',
+        'dark:shadow-purple-900/50',
+
+        'hover:border-purple-300 hover:shadow-md hover:shadow-purple-300/30',
+        'dark:hover:border-purple-600 dark:hover:shadow-purple-800/40',
+        'hover:scale-[1.02]',
+
+        'selection:bg-blue-200 dark:selection:bg-blue-800',
+
         className
       )}
     />
