@@ -9,7 +9,7 @@ const baseComponents: MDXComponents = {
   h1: ({className, ...props}: NativeProps<'h1'>) => (
     <h1
       {...props}
-      className={clsx('text-3xl font-bold tracking-tight text-slate-900 dark:text-white', className)}
+      className={clsx('text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100', className)}
     />
   ),
   h2: ({className, ...props}: NativeProps<'h2'>) => (
