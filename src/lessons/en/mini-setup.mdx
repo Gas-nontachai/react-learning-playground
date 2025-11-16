@@ -1,15 +1,44 @@
-# 4.1 Setup
+# 4.1 Mini project – setup
 
-Set up the mini project foundation.
+Before building a mini project, set up tooling, folder structure, and mock data so later lessons focus on features instead of plumbing.
 
-## Key ideas
-1. Connect the topic to the big picture of **Section 4 – Mini Project**
-2. Translate the new vocabulary into your own words to improve retention
-3. Read the code sample aloud so you can reason about each line
+<br />
+
+## Goals
+- Initialize a Next.js app (or reuse this playground)
+- Install UI libraries (Tailwind, Radix, etc.) you plan to use
+- Create sample JSON data for lessons, students, or orders
+
+<br />
+
+## Checklist
+1. `npx create-next-app@latest mini-learn`
+2. Enable TypeScript and ESLint
+3. Add `src/` directory and move `app/` inside it for clarity
+4. Set up base styles in `globals.css` and configure Tailwind tokens
+5. Create `src/lib/data.ts` with placeholder arrays you can fetch later
+
+<br />
+
+## Example mock data
+```ts
+// src/lib/data.ts
+export const students = [
+  {id: 1, name: 'Mint', progress: 80},
+  {id: 2, name: 'Beam', progress: 55}
+];
+
+export const lessons = [
+  {slug: 'jsx', title: 'JSX', duration: '20 min'},
+  {slug: 'state', title: 'State Basics', duration: '25 min'}
+];
+```
+
+<br />
 
 ## Workshop
-- Modify the playground code and describe what changed
-- Write down any open questions you still have
-- Share your experiments with a study buddy or community
+- Bootstrap a fresh repo or clean branch dedicated to the mini project
+- Decide on the domain (learning tracker, recipe app, habit board) and write its one-sentence goal
+- Document setup steps in `README.md` so teammates can clone and run it quickly
 
 > 💡 Use the playground on the right to experiment with the code and reset any time.

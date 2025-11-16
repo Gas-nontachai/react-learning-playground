@@ -1,15 +1,87 @@
 # 1.6 Events
 
-Wire buttons to functions inside React components.
+Events let components react to user actions—clicks, key presses, form submissions, etc. In React you attach handlers directly to JSX elements.
 
-## Key ideas
-1. Connect the topic to the big picture of **Section 1 – React Basics**
-2. Translate the new vocabulary into your own words to improve retention
-3. Read the code sample aloud so you can reason about each line
+<br />
+
+## Event handler pattern
+```jsx
+function Button() {
+  const handleClick = () => {
+    console.log('Clicked!');
+  };
+
+  return <button onClick={handleClick}>Click</button>;
+}
+```
+- Handler functions live inside the component so they can reach state/props
+- React normalizes events so they behave similarly across browsers
+
+<br />
+
+## Example: todo toggles
+
+```jsx
+import {useState} from 'react';
+
+type Todo = {
+  id: number;
+  text: string;
+  done: boolean;
+};
+
+export default function TodoList() {
+  const [todos, setTodos] = useState<Todo[]>([
+    {id: 1, text: 'Review JSX', done: false},
+    {id: 2, text: 'Practice props', done: true}
+  ]);
+
+  const toggleTodo = (id: number) => {
+    setTodos((items) =>
+      items.map((item) =>
+        item.id === id ? {...item, done: !item.done} : item
+      )
+    );
+  };
+
+  return (
+    <ul className="space-y-2">
+      {todos.map((todo) => (
+        <li
+          key={todo.id}
+          className="flex items-center gap-3 rounded border border-slate-200 p-3"
+        >
+          <button
+            onClick={() => toggleTodo(todo.id)}
+            className={[
+              'size-6 rounded-full border',
+              todo.done
+                ? 'border-emerald-600 bg-emerald-500'
+                : 'border-slate-400'
+            ].join(' ')}
+          />
+          <span className={todo.done ? 'text-slate-400 line-through' : ''}>
+            {todo.text}
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+```
+
+<br />
+
+## Tips
+- Prevent default browser behavior by calling `event.preventDefault()` inside the handler
+- Prefer descriptive handler names: `handleSubmit`, `handleFilterChange`
+- Inline arrow functions are fine for simple cases (like `onClick={() => toggle(id)}`); extract them when logic grows
+
+<br />
 
 ## Workshop
-- Modify the playground code and describe what changed
-- Write down any open questions you still have
-- Share your experiments with a study buddy or community
+- Build buttons that update different pieces of state (toggle dark mode, shuffle data, etc.)
+- Add keyboard events to inputs (`onKeyDown`, `onChange`) and log their values
+- Practice calling `preventDefault` on a form submission and sending data manually
 
 > 💡 Use the playground on the right to experiment with the code and reset any time.

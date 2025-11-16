@@ -1,15 +1,56 @@
 # 1.8 List rendering
 
-Use map to render lists with keys.
+Displaying arrays is a core React task. `Array.map` lets you turn data into JSX while the `key` prop keeps React aware of each item.
 
-## Key ideas
-1. Connect the topic to the big picture of **Section 1 – React Basics**
-2. Translate the new vocabulary into your own words to improve retention
-3. Read the code sample aloud so you can reason about each line
+<br />
+
+## Key rules
+- Always set a stable `key` for each rendered element (id from the database beats array index)
+- Keep the mapping function pure—no direct mutations or async calls inside `map`
+- Separate data preparation from rendering so the JSX stays simple
+
+<br />
+
+## Example: lessons catalog
+
+```jsx
+const lessons = [
+  {slug: 'jsx', title: 'JSX basics', level: 'Beginner'},
+  {slug: 'state', title: 'Thinking in state', level: 'Beginner'},
+  {slug: 'use-effect', title: 'Side effects', level: 'Intermediate'}
+];
+
+function LessonList() {
+  return (
+    <div className="grid gap-4 md:grid-cols-3">
+      {lessons.map((lesson) => (
+        <article
+          key={lesson.slug}
+          className="rounded-2xl border border-slate-200 bg-white p-4 shadow"
+        >
+          <p className="text-xs uppercase text-slate-400">{lesson.level}</p>
+          <h3 className="text-lg font-semibold">{lesson.title}</h3>
+          <a className="text-sm text-indigo-600" href={`/lessons/${lesson.slug}`}>
+            Continue →
+          </a>
+        </article>
+      ))}
+    </div>
+  );
+}
+```
+
+<br />
+
+## Empty and loading states
+- Before data arrives, render skeleton cards or a loading indicator
+- If the array is empty, show a helpful message plus an action (e.g. “Create your first todo”)
+
+<br />
 
 ## Workshop
-- Modify the playground code and describe what changed
-- Write down any open questions you still have
-- Share your experiments with a study buddy or community
+- Render a list of objects from your own data model (courses, invoices, playlists)
+- Add buttons to reorder or filter the list, then map the derived array
+- Practice using nested lists (e.g. categories with nested items)
 
 > 💡 Use the playground on the right to experiment with the code and reset any time.

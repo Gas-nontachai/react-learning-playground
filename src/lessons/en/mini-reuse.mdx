@@ -1,15 +1,46 @@
-# 4.4 Component reuse
+# 4.4 Mini project – component reuse
 
-Split UI into reusable components.
+After wiring data, look for repeated UI patterns and refactor them into reusable components.
 
-## Key ideas
-1. Connect the topic to the big picture of **Section 4 – Mini Project**
-2. Translate the new vocabulary into your own words to improve retention
-3. Read the code sample aloud so you can reason about each line
+<br />
+
+## Steps
+1. Audit screens for repeated markup (cards, list items, stats)
+2. Extract these blocks into components under `src/components`
+3. Accept props for variant styles (`status`, `tone`, `size`)
+
+<br />
+
+## Example: stat widget
+
+```tsx
+type StatProps = {
+  label: string;
+  value: string;
+  trend?: 'up' | 'down';
+};
+
+export function Stat({label, value, trend}: StatProps) {
+  const trendColor = trend === 'up' ? 'text-emerald-600' : 'text-rose-600';
+  const trendIcon = trend === 'up' ? '▲' : '▼';
+
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow">
+      <p className="text-sm text-slate-500">{label}</p>
+      <p className="text-3xl font-semibold">{value}</p>
+      {trend && <p className={`text-sm ${trendColor}`}>{trendIcon} 12% vs last week</p>}
+    </div>
+  );
+}
+```
+
+Reuse this widget anywhere by passing different props.
+
+<br />
 
 ## Workshop
-- Modify the playground code and describe what changed
-- Write down any open questions you still have
-- Share your experiments with a study buddy or community
+- Pick one screen and reduce duplicate JSX by at least 50%
+- Add storybook or a simple docs page showing all reusable components
+- Implement visual variants (success, warning, neutral) without duplicating markup
 
 > 💡 Use the playground on the right to experiment with the code and reset any time.

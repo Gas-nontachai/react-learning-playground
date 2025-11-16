@@ -12,65 +12,45 @@ export type Lesson = {
     th: string;
     en: string;
   };
-  defaultCode: string;
+  defaultCode?: string;
 };
 
-const snippetMap = new Map<string, string>();
+const snippetMap = new Map<string, string | undefined>();
 
-const introSnippet = `import './styles.css';
+const jsxSnippet = `// app.jsx
+  const name = "Nontachai";
+  const isOnline = true;
 
-const timeline = [
-  {year: 1990, label: 'HTML is born'},
-  {year: 1995, label: 'JavaScript arrives'},
-  {year: 2024, label: 'You build with React'}
-];
+  // ฟังก์ชันเล็กๆ ไว้ใช้ใน JSX
+  const getGreeting = () => {
+    return \`Hello, \${name}!\`;
+  };
 
-export default function App() {
-  return (
-    <main className="space-y-4 p-6">
-      <h1 className="text-2xl font-bold">Web Timeline</h1>
-      <ul className="space-y-2">
-        {timeline.map((item) => (
-          <li key={item.year} className="rounded border border-slate-300 p-3 shadow-sm">
-            <p className="text-sm text-slate-500">{item.year}</p>
-            <p className="text-lg font-semibold">{item.label}</p>
-          </li>
-        ))}
-      </ul>
-    </main>
-  );
-}
-`;
+  export default function App() {
+    return (
+      <div style={{ padding: "20px", fontFamily: "sans-serif" }}>
+        <h1>{getGreeting()}</h1>
 
-const jsxSnippet = `type HighlightProps = {
-  label: string;
-  note: string;
-};
+        {/* แสดงค่าตัวแปร */}
+        <p>Welcome to basic JSX example.</p>
 
-const snippets: HighlightProps[] = [
-  {
-    label: '<Button>',
-    note: 'Looks like HTML but is actually JSX'
-  },
-  {
-    label: '{value}',
-    note: 'Embed JavaScript expressions'
+        {/* ternary operator */}
+        <p>Status: {isOnline ? "🟢 Online" : "🔴 Offline"}</p>
+
+        {/* วนลูปด้วย map */}
+        <ul>
+          {["React", "JSX", "Components"].map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ul>
+
+        {/* ปุ่มแบบ JSX */}
+        <button onClick={() => alert("You clicked the button!")}>
+          Click me
+        </button>
+      </div>
+    );
   }
-];
-
-export default function App() {
-  return (
-    <section className="space-y-4 p-6">
-      <h1 className="text-2xl font-bold">JSX Cheatsheet</h1>
-      {snippets.map((item) => (
-        <article key={item.label} className="rounded-lg border border-blue-200 bg-blue-50 p-4 text-blue-900">
-          <h2 className="font-semibold">{item.label}</h2>
-          <p>{item.note}</p>
-        </article>
-      ))}
-    </section>
-  );
-}
 `;
 
 const componentSnippet = `type CardProps = {
@@ -545,86 +525,12 @@ export default function App() {
 }
 `;
 
-const deploySnippet = `const checklist = [
-  'Connect GitHub repo to Vercel',
-  'Set environment variables',
-  'Verify build output'
-];
-
-export default function App() {
-  return (
-    <ul className="space-y-3 p-6">
-      {checklist.map((item) => (
-        <li key={item} className="rounded-lg border border-sky-200 bg-sky-50 p-3 text-sky-900">
-          ✅ {item}
-        </li>
-      ))}
-    </ul>
-  );
-}
-`;
-
-const structureSnippet = `const folders = [
-  {name: 'src/app', tip: 'Route handlers & layouts'},
-  {name: 'src/components', tip: 'Reusable UI pieces'},
-  {name: 'src/lib', tip: 'Pure helpers & data'},
-  {name: 'src/lessons', tip: 'Localized MDX content'}
-];
-
-export default function App() {
-  return (
-    <div className="space-y-3 p-6">
-      {folders.map((folder) => (
-        <div key={folder.name} className="rounded border border-slate-200 p-3">
-          <p className="font-mono">{folder.name}</p>
-          <p className="text-sm text-slate-500">{folder.tip}</p>
-        </div>
-      ))}
-    </div>
-  );
-}
-`;
-
-const debuggingSnippet = `import {useState} from 'react';
-
-type Log = {
-  id: number;
-  message: string;
-};
-
-export default function App() {
-  const [logs, setLogs] = useState<Log[]>([]);
-
-  const addLog = () => {
-    setLogs((items) => [
-      ...items,
-      {id: Date.now(), message: ` + '`Checked component tree in React DevTools`' + `}
-    ]);
-  };
-
-  return (
-    <div className="space-y-4 p-6">
-      <button onClick={addLog} className="rounded bg-slate-900 px-4 py-2 text-white">
-        Add debug log
-      </button>
-      <ul className="space-y-2">
-        {logs.map((log) => (
-          <li key={log.id} className="rounded border border-slate-300 p-2 font-mono text-sm">
-            {log.message}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-`;
-
-function assign(slugs: string[], snippet: string) {
+function assign(slugs: string[], snippet?: string) {
   slugs.forEach((slug) => snippetMap.set(slug, snippet));
 }
 
-assign(['web-basics', 'js-essentials'], introSnippet);
-assign(['react-intro', 'composition'], componentSnippet);
+assign(['web-basics', 'js-essentials', 'react-intro']);
+assign(['composition'], componentSnippet);
 assign(['jsx'], jsxSnippet);
 assign(['first-component'], componentSnippet);
 assign(['props'], propsSnippet);
@@ -643,42 +549,15 @@ assign(['organizing-files'], organizeSnippet);
 assign(['mini-setup', 'mini-ui-layout'], miniLayoutSnippet);
 assign(['mini-reuse'], componentSnippet);
 assign(['mini-routing'], miniRoutingSnippet);
-assign(['mini-deploy', 'deploy-vercel'], deploySnippet);
-assign(['project-structure'], structureSnippet);
-assign(['debugging'], debuggingSnippet);
+assign(['mini-deploy', 'deploy-vercel', 'project-structure', 'debugging']);
 
-const fallbackSnippet = `import {useState} from 'react';
-
-const lessons = ['intro', 'jsx', 'state'];
-
-export default function App() {
-  const [selected, setSelected] = useState(lessons[0]);
-  return (
-    <div className="space-y-4 p-6">
-      <div className="flex gap-2">
-        {lessons.map((lesson) => (
-          <button
-            key={lesson}
-            onClick={() => setSelected(lesson)}
-            className={[
-              'rounded border px-3 py-1',
-              selected === lesson ? 'bg-slate-900 text-white' : ''
-            ].join(' ')}
-          >
-            {lesson}
-          </button>
-        ))}
-      </div>
-      <p>Selected lesson: {selected}</p>
-    </div>
-  );
-}
-`;
-
-export const lessons: Lesson[] = lessonsData.map((lesson) => ({
-  ...lesson,
-  defaultCode: snippetMap.get(lesson.slug) ?? fallbackSnippet
-}));
+export const lessons: Lesson[] = lessonsData.map((lesson) => {
+  const snippet = snippetMap.get(lesson.slug);
+  return {
+    ...lesson,
+    ...(snippet ? { defaultCode: snippet } : {})
+  };
+});
 
 export const orderedLessons = [...lessons].sort((a, b) => a.order - b.order);
 

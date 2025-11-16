@@ -57,7 +57,7 @@ export function Sidebar({locale, className, ...props}: SidebarProps) {
           {tSidebar('search')}
         </label>
         <input
-          className="mt-2 w-full rounded border border-slate-300 bg-transparent p-2 text-sm dark:border-slate-700"
+          className="my-2 w-full rounded border border-slate-300 bg-transparent p-2 text-sm dark:border-slate-700"
           placeholder={tSidebar('search')}
           value={query}
           onChange={(event) => setQuery(event.target.value)}

@@ -27,6 +27,7 @@ const baseComponents: MDXComponents = {
   p: ({className, ...props}: NativeProps<'p'>) => (
     <p {...props} className={clsx('leading-relaxed text-slate-600 dark:text-slate-300', className)} />
   ),
+  br: ({className, ...props}: NativeProps<'br'>) => <br {...props} className={clsx(className)} />,
   ul: ({className, ...props}: NativeProps<'ul'>) => (
     <ul {...props} className={clsx('ml-6 list-disc space-y-2 text-slate-600 dark:text-slate-300', className)} />
   ),

@@ -1,15 +1,41 @@
-# 5.1 Deploy to Vercel
+# 5.1 Deploy to Vercel – production checklist
 
-Checklist for production-ready Vercel deploys.
+Production deploys require a bit more rigor than a quick mini project. Treat each release as something your users rely on.
 
-## Key ideas
-1. Connect the topic to the big picture of **Section 5 – Deploy & Best Practices**
-2. Translate the new vocabulary into your own words to improve retention
-3. Read the code sample aloud so you can reason about each line
+<br />
+
+## Before deploying
+- Confirm environment variables for all stages (preview, production)
+- Review analytics/monitoring setup (Vercel Analytics, Log Drain, Sentry)
+- Run accessibility and performance checks (Lighthouse, axe)
+
+<br />
+
+## Vercel best practices
+- Use separate projects for staging vs production or leverage Vercel environments
+- Protect main branch by requiring PR reviews and status checks before merging
+- Enable automatic rollbacks so you can revert with one click
+
+<br />
+
+## Example workflow
+1. Merge PR into `main` once tests pass
+2. Vercel builds a new deployment and runs checks
+3. QA verifies preview URL
+4. Promote the deployment to production or configure auto-promotion from `main`
+
+<br />
+
+## After deploying
+- Monitor Core Web Vitals in the Vercel dashboard
+- Watch serverless function duration/usage to catch cost issues
+- Keep a changelog so everyone knows what shipped
+
+<br />
 
 ## Workshop
-- Modify the playground code and describe what changed
-- Write down any open questions you still have
-- Share your experiments with a study buddy or community
+- Configure custom domains and verify DNS propagation
+- Add health check endpoints for external monitoring services
+- Practice the rollback flow so you are comfortable when incidents happen
 
 > 💡 Use the playground on the right to experiment with the code and reset any time.

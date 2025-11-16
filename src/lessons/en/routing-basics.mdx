@@ -1,15 +1,72 @@
-# 3.1 Routing basics
+# 3.1 Routing basics (Next.js App Router)
 
-Learn Next.js file-based routing.
+Next.js uses the filesystem to define routes. Every folder inside `app/` becomes part of the URL, and `page.tsx` files render the UI.
 
-## Key ideas
-1. Connect the topic to the big picture of **Section 3 – Routing**
-2. Translate the new vocabulary into your own words to improve retention
-3. Read the code sample aloud so you can reason about each line
+<br />
+
+## Core ideas
+- `app/page.tsx` → `/`
+- `app/lessons/page.tsx` → `/lessons`
+- Layouts (`layout.tsx`) wrap all routes inside the same folder and share navigation, fonts, etc.
+- Use `Link` from `next/link` for client-side navigation
+
+<br />
+
+## Example structure
+```
+app/
+├── layout.tsx        // global shell
+├── page.tsx          // homepage
+├── lessons/
+│   ├── layout.tsx    // lessons navigation
+│   └── page.tsx      // /lessons
+└── about/
+    └── page.tsx      // /about
+```
+
+### Example layout/page
+```tsx
+// app/lessons/layout.tsx
+import Link from 'next/link';
+
+export default function LessonsLayout({children}: {children: React.ReactNode}) {
+  const items = [
+    {href: '/lessons/react-intro', label: 'React intro'},
+    {href: '/lessons/jsx', label: 'JSX'}
+  ];
+
+  return (
+    <div className="grid gap-6 md:grid-cols-[200px_1fr]">
+      <aside className="space-y-2 rounded-2xl border border-slate-200 p-4">
+        {items.map((item) => (
+          <Link key={item.href} href={item.href} className="block rounded px-3 py-2 hover:bg-slate-100">
+            {item.label}
+          </Link>
+        ))}
+      </aside>
+      <main className="rounded-2xl border border-slate-200 p-6 bg-white">{children}</main>
+    </div>
+  );
+}
+
+// app/lessons/page.tsx
+export default function LessonsPage() {
+  return <h1>Pick a lesson</h1>;
+}
+```
+
+<br />
+
+## Tips
+- Keep route folders flat. Create subfolders only when you truly need nested layouts
+- Name files after the URL segment to keep navigation obvious
+- Co-locate route-specific components inside the folder to avoid guesswork
+
+<br />
 
 ## Workshop
-- Modify the playground code and describe what changed
-- Write down any open questions you still have
-- Share your experiments with a study buddy or community
+- Add a new top-level route, create its layout, and link it from the navigation
+- Move a page into its own layout to reuse breadcrumbs or sidebars
+- Inspect the generated URLs in the browser DevTools to confirm the routing structure
 
 > 💡 Use the playground on the right to experiment with the code and reset any time.

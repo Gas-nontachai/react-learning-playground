@@ -1,15 +1,43 @@
 # 5.3 Debugging & beginner practices
 
-Debugging strategies and beginner habits.
+Debugging is a skill you build with habits. Combine tooling, systematic thinking, and communication to unblock yourself quickly.
 
-## Key ideas
-1. Connect the topic to the big picture of **Section 5 – Deploy & Best Practices**
-2. Translate the new vocabulary into your own words to improve retention
-3. Read the code sample aloud so you can reason about each line
+<br />
+
+## Mindset
+- Reproduce the bug reliably (record steps, inputs, browser info)
+- Change one variable at a time to isolate the root cause
+- Assume it’s your bug until proven otherwise—then widen the search
+
+<br />
+
+## Tools
+- Browser DevTools: inspect network requests, component DOM, performance timeline
+- React DevTools: check component tree, props, and hooks values
+- `console.log` strategically to print state transitions (wrap in conditionals to avoid noise)
+- TypeScript + ESLint: many “bugs” are type or lint errors waiting to be fixed
+
+<br />
+
+## Example workflow
+1. Encounter a blank screen → open DevTools console
+2. Read the error stack trace; click the file/line to jump directly to source
+3. Add temporary logs around the suspicious component
+4. Write a failing unit test if the bug is logic-related
+5. Fix, rerun tests, and remove noisy logs before committing
+
+<br />
+
+## Communication
+- Create actionable bug reports: title, steps, expected vs actual, screenshots
+- Pair with a teammate when stuck for more than 30 minutes
+- Share root-cause summaries after fixing critical bugs so others learn
+
+<br />
 
 ## Workshop
-- Modify the playground code and describe what changed
-- Write down any open questions you still have
-- Share your experiments with a study buddy or community
+- Break a component on purpose (typo prop name, wrong dependency) and recover using DevTools
+- Practice stepping through code with the Sources tab debugger
+- Keep a personal troubleshooting log so you can revisit techniques that worked well
 
 > 💡 Use the playground on the right to experiment with the code and reset any time.
