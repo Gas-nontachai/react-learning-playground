@@ -68,7 +68,7 @@ export function LessonLayout({ locale, lesson, children, previous, next }: Lesso
             aria-label={isCollapsed ? 'Expand lesson content' : 'Collapse lesson content'}
             title={isCollapsed ? 'Expand lesson content' : 'Collapse lesson content'}
             onClick={toggleCollapsed}
-            className="absolute -left-4 top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-700 shadow-md transition-all hover:scale-110 hover:border-slate-400 hover:bg-slate-50 hover:shadow-lg active:scale-95 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:border-slate-500 dark:hover:bg-slate-700"
+            className="absolute -left-4 top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-700 shadow-md transition-all hover:bg-slate-50 hover:shadow-lg active:scale-95 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:border-slate-500 dark:hover:bg-slate-700"
           >
             <ExpandIcon
               className={clsx(
