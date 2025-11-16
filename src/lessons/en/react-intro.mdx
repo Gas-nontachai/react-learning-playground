@@ -1,15 +1,44 @@
 # 1.1 What is React
 
-High-level overview of React's mental model and the problems it solves.
+React is a JavaScript library for building user interfaces (UI).  
+Its strength is helping us manage complex screens systematically and break code into smaller, easier-to-maintain pieces.
 
-## Key ideas
-1. Connect the topic to the big picture of **Section 1 – React Basics**
-2. Translate the new vocabulary into your own words to improve retention
-3. Read the code sample aloud so you can reason about each line
+React was created by a team at Facebook to solve problems on web pages that update frequently and have state that changes based on user interactions.
 
-## Workshop
-- Modify the playground code and describe what changed
-- Write down any open questions you still have
-- Share your experiments with a study buddy or community
+<br />
 
-> 💡 Use the playground on the right to experiment with the code and reset any time.
+## What problems does React solve
+
+Before React, managing UIs with plain JavaScript often had problems such as:
+
+- Scattered code — changing one place could break another
+- Multiple direct updates to the DOM, causing confusion
+- Repeated conditional rendering logic
+- The larger the site, the harder it is to maintain
+
+React proposes a new way of thinking:  
+think of "UI = result of State"  
+When the state changes, the UI updates automatically
+
+<br />
+
+## Main concepts of React
+
+### 1. Component
+React splits the UI into small parts called components, making them reusable and easier to maintain individually
+
+### 2. State management
+State is mutable data, such as the text in an input or the number of items in a cart  
+React updates the UI to reflect state changes automatically
+
+### 3. Virtual DOM
+React uses a Virtual DOM to diff changes and update only the necessary parts, improving performance
+
+<br />
+
+## Example of a simple React component
+```jsx
+    function Hello() {
+      return <h1>Hello React</h1>;
+    }
+```

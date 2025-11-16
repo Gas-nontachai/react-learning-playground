@@ -17,35 +17,40 @@ export type Lesson = {
 
 const snippetMap = new Map<string, string | undefined>();
 
-const jsxSnippet = `type HighlightProps = {
-  label: string;
-  note: string;
-};
+const jsxSnippet = `// app.jsx
+  const name = "Nontachai";
+  const isOnline = true;
 
-const snippets: HighlightProps[] = [
-  {
-    label: '<Button>',
-    note: 'Looks like HTML but is actually JSX'
-  },
-  {
-    label: '{value}',
-    note: 'Embed JavaScript expressions'
+  // ฟังก์ชันเล็กๆ ไว้ใช้ใน JSX
+  const getGreeting = () => {
+    return \`Hello, \${name}!\`;
+  };
+
+  export default function App() {
+    return (
+      <div style={{ padding: "20px", fontFamily: "sans-serif" }}>
+        <h1>{getGreeting()}</h1>
+
+        {/* แสดงค่าตัวแปร */}
+        <p>Welcome to basic JSX example.</p>
+
+        {/* ternary operator */}
+        <p>Status: {isOnline ? "🟢 Online" : "🔴 Offline"}</p>
+
+        {/* วนลูปด้วย map */}
+        <ul>
+          {["React", "JSX", "Components"].map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ul>
+
+        {/* ปุ่มแบบ JSX */}
+        <button onClick={() => alert("You clicked the button!")}>
+          Click me
+        </button>
+      </div>
+    );
   }
-];
-
-export default function App() {
-  return (
-    <section className="space-y-4 p-6">
-      <h1 className="text-2xl font-bold">JSX Cheatsheet</h1>
-      {snippets.map((item) => (
-        <article key={item.label} className="rounded-lg border border-blue-200 bg-blue-50 p-4 text-blue-900">
-          <h2 className="font-semibold">{item.label}</h2>
-          <p>{item.note}</p>
-        </article>
-      ))}
-    </section>
-  );
-}
 `;
 
 const componentSnippet = `type CardProps = {
@@ -598,8 +603,8 @@ function assign(slugs: string[], snippet?: string) {
   slugs.forEach((slug) => snippetMap.set(slug, snippet));
 }
 
-assign(['web-basics', 'js-essentials']);
-assign(['react-intro', 'composition'], componentSnippet);
+assign(['web-basics', 'js-essentials', 'react-intro']);
+assign(['composition'], componentSnippet);
 assign(['jsx'], jsxSnippet);
 assign(['first-component'], componentSnippet);
 assign(['props'], propsSnippet);
@@ -626,7 +631,7 @@ export const lessons: Lesson[] = lessonsData.map((lesson) => {
   const snippet = snippetMap.get(lesson.slug);
   return {
     ...lesson,
-    ...(snippet ? {defaultCode: snippet} : {})
+    ...(snippet ? { defaultCode: snippet } : {})
   };
 });
 
