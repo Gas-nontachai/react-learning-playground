@@ -20,10 +20,11 @@ export function LessonLayout({ locale, lesson, children, previous, next }: Lesso
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const toggleCollapsed = () => setIsCollapsed((current) => !current);
+  const playgroundCode = lesson.defaultCode;
+  const hasPlayground = Boolean(playgroundCode);
 
   return (
     <div className="space-y-6">
-      {/* Header with better visual hierarchy */}
       <div className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-slate-50/50 p-5 shadow-sm transition-shadow hover:shadow-md dark:border-slate-800 dark:from-slate-900 dark:to-slate-900/50 lg:flex-row lg:items-center lg:justify-between">
         <span className="text-xs font-medium uppercase tracking-wider text-slate-600 dark:text-slate-400">
           {lesson.section}
@@ -31,11 +32,10 @@ export function LessonLayout({ locale, lesson, children, previous, next }: Lesso
         <ProgressAction slug={lesson.slug} />
       </div>
 
-      {/* Improved navigation with better visual feedback */}
       <nav className="flex flex-col gap-3 text-sm md:flex-row md:items-center md:justify-between">
         {previous ? (
-          <Link 
-            className="group inline-flex items-center gap-2 rounded-lg px-3 py-2 text-slate-600 transition-all hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100" 
+          <Link
+            className="group inline-flex items-center gap-2 rounded-lg px-3 py-2 text-slate-600 transition-all hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100"
             href={`/${locale}/lesson/${previous.slug}`}
           >
             <span className="transition-transform group-hover:-translate-x-1">←</span>
@@ -45,8 +45,8 @@ export function LessonLayout({ locale, lesson, children, previous, next }: Lesso
           <div className="px-3 py-2" />
         )}
         {next ? (
-          <Link 
-            className="group inline-flex items-center justify-end gap-2 rounded-lg px-3 py-2 text-right text-slate-600 transition-all hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100" 
+          <Link
+            className="group inline-flex items-center justify-end gap-2 rounded-lg px-3 py-2 text-right text-slate-600 transition-all hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100"
             href={`/${locale}/lesson/${next.slug}`}
           >
             <span className="font-medium">{next.title[locale]}</span>
@@ -57,31 +57,31 @@ export function LessonLayout({ locale, lesson, children, previous, next }: Lesso
         )}
       </nav>
 
-      <div className="flex flex-col gap-6 lg:flex-row relative">
-        {/* Enhanced toggle button with better visual feedback */}
-        <button
-          type="button"
-          aria-expanded={!isCollapsed}
-          aria-label={isCollapsed ? 'Expand lesson content' : 'Collapse lesson content'}
-          title={isCollapsed ? 'Expand lesson content' : 'Collapse lesson content'}
-          onClick={toggleCollapsed}
-          className="absolute -left-4 top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-700 shadow-md transition-all hover:scale-110 hover:border-slate-400 hover:bg-slate-50 hover:shadow-lg active:scale-95 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:border-slate-500 dark:hover:bg-slate-700"
-        >
-          <ExpandIcon
-            className={clsx(
-              'h-5 w-5 transition-transform duration-300 ease-out',
-              isCollapsed ? 'rotate-0' : 'rotate-45'
-            )}
-          />
-        </button>
+      <div className={clsx('flex flex-col gap-6 relative', hasPlayground && 'lg:flex-row')}>
+        {hasPlayground && (
+          <button
+            type="button"
+            aria-expanded={!isCollapsed}
+            aria-label={isCollapsed ? 'Expand lesson content' : 'Collapse lesson content'}
+            title={isCollapsed ? 'Expand lesson content' : 'Collapse lesson content'}
+            onClick={toggleCollapsed}
+            className="absolute -left-4 top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-700 shadow-md transition-all hover:scale-110 hover:border-slate-400 hover:bg-slate-50 hover:shadow-lg active:scale-95 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:border-slate-500 dark:hover:bg-slate-700"
+          >
+            <ExpandIcon
+              className={clsx(
+                'h-5 w-5 transition-transform duration-300 ease-out',
+                isCollapsed ? 'rotate-0' : 'rotate-45'
+              )}
+            />
+          </button>
+        )}
 
-        {/* Smoother content collapse with improved animation */}
         <article
           className={clsx(
             'relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 ease-out dark:border-slate-800 dark:bg-slate-900',
-            'lg:flex-[0_0_440px]',
-            isCollapsed 
-              ? 'flex-[0_0_0px] opacity-0 lg:flex-[0_0_0px]' 
+            hasPlayground && 'lg:flex-[0_0_440px]',
+            isCollapsed && hasPlayground
+              ? 'flex-[0_0_0px] opacity-0 lg:flex-[0_0_0px]'
               : 'p-6 opacity-100 space-y-4'
           )}
           aria-hidden={isCollapsed}
@@ -106,13 +106,16 @@ export function LessonLayout({ locale, lesson, children, previous, next }: Lesso
           )}
         </article>
 
-        {/* Playground with better visual treatment */}
-        <div className={clsx(
-          'min-h-[520px] flex-1 rounded-2xl transition-all duration-300 ease-out',
-          isCollapsed && 'lg:ml-6'
-        )}>
-          <Playground code={lesson.defaultCode} />
-        </div>
+        {playgroundCode && (
+          <div
+            className={clsx(
+              'min-h-[520px] flex-1 rounded-2xl transition-all duration-300 ease-out',
+              isCollapsed && 'lg:ml-6'
+            )}
+          >
+            <Playground code={playgroundCode} />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -12,35 +12,10 @@ export type Lesson = {
     th: string;
     en: string;
   };
-  defaultCode: string;
+  defaultCode?: string;
 };
 
-const snippetMap = new Map<string, string>();
-
-const introSnippet = `import './styles.css';
-
-const timeline = [
-  {year: 1990, label: 'HTML is born'},
-  {year: 1995, label: 'JavaScript arrives'},
-  {year: 2024, label: 'You build with React'}
-];
-
-export default function App() {
-  return (
-    <main className="space-y-4 p-6">
-      <h1 className="text-2xl font-bold">Web Timeline</h1>
-      <ul className="space-y-2">
-        {timeline.map((item) => (
-          <li key={item.year} className="rounded border border-slate-300 p-3 shadow-sm">
-            <p className="text-sm text-slate-500">{item.year}</p>
-            <p className="text-lg font-semibold">{item.label}</p>
-          </li>
-        ))}
-      </ul>
-    </main>
-  );
-}
-`;
+const snippetMap = new Map<string, string | undefined>();
 
 const jsxSnippet = `type HighlightProps = {
   label: string;
@@ -619,11 +594,11 @@ export default function App() {
 }
 `;
 
-function assign(slugs: string[], snippet: string) {
+function assign(slugs: string[], snippet?: string) {
   slugs.forEach((slug) => snippetMap.set(slug, snippet));
 }
 
-assign(['web-basics', 'js-essentials'], introSnippet);
+assign(['web-basics', 'js-essentials']);
 assign(['react-intro', 'composition'], componentSnippet);
 assign(['jsx'], jsxSnippet);
 assign(['first-component'], componentSnippet);
@@ -647,38 +622,13 @@ assign(['mini-deploy', 'deploy-vercel'], deploySnippet);
 assign(['project-structure'], structureSnippet);
 assign(['debugging'], debuggingSnippet);
 
-const fallbackSnippet = `import {useState} from 'react';
-
-const lessons = ['intro', 'jsx', 'state'];
-
-export default function App() {
-  const [selected, setSelected] = useState(lessons[0]);
-  return (
-    <div className="space-y-4 p-6">
-      <div className="flex gap-2">
-        {lessons.map((lesson) => (
-          <button
-            key={lesson}
-            onClick={() => setSelected(lesson)}
-            className={[
-              'rounded border px-3 py-1',
-              selected === lesson ? 'bg-slate-900 text-white' : ''
-            ].join(' ')}
-          >
-            {lesson}
-          </button>
-        ))}
-      </div>
-      <p>Selected lesson: {selected}</p>
-    </div>
-  );
-}
-`;
-
-export const lessons: Lesson[] = lessonsData.map((lesson) => ({
-  ...lesson,
-  defaultCode: snippetMap.get(lesson.slug) ?? fallbackSnippet
-}));
+export const lessons: Lesson[] = lessonsData.map((lesson) => {
+  const snippet = snippetMap.get(lesson.slug);
+  return {
+    ...lesson,
+    ...(snippet ? {defaultCode: snippet} : {})
+  };
+});
 
 export const orderedLessons = [...lessons].sort((a, b) => a.order - b.order);
 
