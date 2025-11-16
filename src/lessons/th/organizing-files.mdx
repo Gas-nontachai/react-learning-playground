@@ -1,15 +1,53 @@
-# 3.4 Organizing Files
+# 3.4 Organizing files
 
-จัดโครงสร้างไฟล์ app/ และ component
+โครงสร้างไฟล์ที่ดีช่วยให้ทีมทำงานเร็ว จัดกลุ่ม component, hook, utility ให้อยู่ใกล้ route ที่ใช้งาน
 
-## แนวคิดสำคัญ
-1. ทำความเข้าใจว่า **Section 3 – Routing** ต้องการให้คุณเก่งเรื่องใดก่อนจะไปบทต่อไป
-2. จับคู่คำศัพท์ใหม่กับประสบการณ์จริง เช่น 3.4 Organizing Files ในชีวิตประจำวัน
-3. อ่านตัวอย่างโค้ดแล้วลองอธิบายเป็นคำพูดของตัวเอง
+<br />
+
+## โครงสร้างแนะนำ
+```
+src/
+├── app/
+│   ├── (marketing)/
+│   │   └── page.tsx
+│   ├── (dashboard)/
+│   │   ├── layout.tsx
+│   │   ├── lessons/
+│   │   │   ├── page.tsx
+│   │   │   └── LessonList.tsx
+│   │   └── students/
+│   │       └── page.tsx
+│   └── api/
+├── components/
+│   ├── ui/Button.tsx
+│   └── lesson/LessonCard.tsx
+├── hooks/
+│   └── useLessons.ts
+└── lib/
+    └── fetcher.ts
+```
+
+<br />
+
+## หลักการ
+- **Feature-first**: รวมไฟล์ของฟีเจอร์เดียวกันไว้ด้วยกัน แม้จะมีทั้ง UI และ logic
+- **Colocation**: component ที่ใช้เฉพาะ route ใด route หนึ่งควรอยู่ใกล้โฟลเดอร์นั้น
+- **Barrel file**: สร้าง `index.ts` เพื่อ re-export utility ที่เกี่ยวข้อง ลดความยาวของ import
+
+<br />
+
+## ตัวอย่าง barrel file
+```ts
+// src/components/lesson/index.ts
+export {LessonCard} from './LessonCard';
+export {LessonHeader} from './LessonHeader';
+```
+
+<br />
 
 ## Workshop
-- พิมพ์โค้ดเพิ่มใน Playground แล้วดูผลลัพธ์ทันที
-- จดคำถามที่ยังสงสัยไว้เพื่อถามเพื่อนหรือเมนเทอร์
-- แชร์สิ่งที่ลองทำในคอมมิวนิตี้ React ไทย
+- ตรวจสอบโปรเจกต์ว่ามีโฟลเดอร์ไหนรับงานหลายอย่างเกินไป
+- ย้าย component เฉพาะ route ไปอยู่ใน `app/` โฟลเดอร์ที่เกี่ยวข้อง
+- สร้าง barrel file ให้ component UI ที่ใช้บ่อยเพื่อลดความซ้ำซ้อนของ import
 
 > 💡 ใช้ Playground ด้านขวาเพื่อทดลองโค้ดและรีเซ็ตได้ตลอดเวลา.

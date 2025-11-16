@@ -1,15 +1,109 @@
 # 2.3 Forms
 
-Handle form inputs with state.
+Forms in React are usually “controlled”: the input value is driven by state so you can validate, format, and submit it with full control.
 
-## Key ideas
-1. Connect the topic to the big picture of **Section 2 – Intermediate**
-2. Translate the new vocabulary into your own words to improve retention
-3. Read the code sample aloud so you can reason about each line
+<br />
+
+## Controlled inputs
+```jsx
+const [value, setValue] = useState('');
+<input value={value} onChange={(event) => setValue(event.target.value)} />
+```
+- `value` reflects the current state
+- `onChange` updates state every time the user types
+
+<br />
+
+## Example: signup form
+
+```jsx
+import {useState} from 'react';
+
+export default function SignupForm() {
+  const [form, setForm] = useState({name: '', email: '', role: 'student'});
+  const [errors, setErrors] = useState<{[key: string]: string}>({});
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const {name, value} = event.target;
+    setForm((prev) => ({...prev, [name]: value}));
+  };
+
+  const validate = () => {
+    const nextErrors: {[key: string]: string} = {};
+    if (!form.name.trim()) nextErrors.name = 'Please enter your name';
+    if (!form.email.includes('@')) nextErrors.email = 'Email looks invalid';
+    return nextErrors;
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    const nextErrors = validate();
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length === 0) {
+      alert(`Welcome ${form.name}!`);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4 rounded-2xl border border-slate-200 p-6">
+      <label className="block">
+        <span className="text-sm text-slate-500">Name</span>
+        <input
+          name="name"
+          value={form.name}
+          onChange={handleChange}
+          className="mt-1 w-full rounded border border-slate-200 p-2"
+        />
+        {errors.name && <p className="text-sm text-red-600">{errors.name}</p>}
+      </label>
+
+      <label className="block">
+        <span className="text-sm text-slate-500">Email</span>
+        <input
+          name="email"
+          value={form.email}
+          onChange={handleChange}
+          className="mt-1 w-full rounded border border-slate-200 p-2"
+        />
+        {errors.email && <p className="text-sm text-red-600">{errors.email}</p>}
+      </label>
+
+      <label className="block">
+        <span className="text-sm text-slate-500">Role</span>
+        <select
+          name="role"
+          value={form.role}
+          onChange={handleChange}
+          className="mt-1 w-full rounded border border-slate-200 p-2"
+        >
+          <option value="student">Student</option>
+          <option value="mentor">Mentor</option>
+        </select>
+      </label>
+
+      <button
+        type="submit"
+        className="rounded-full bg-slate-900 px-4 py-2 text-white"
+      >
+        Create account
+      </button>
+    </form>
+  );
+}
+```
+
+<br />
+
+## Tips
+- Group related inputs into one state object to avoid dozens of `useState` calls
+- Use the `name` attribute to update the correct field dynamically inside `handleChange`
+- For complex forms consider libs like React Hook Form, but build a few controlled forms first to understand the fundamentals
+
+<br />
 
 ## Workshop
-- Modify the playground code and describe what changed
-- Write down any open questions you still have
-- Share your experiments with a study buddy or community
+- Build a multi-step form and persist progress in localStorage
+- Validate inputs on the fly and disable the submit button until everything passes
+- Implement a textarea with live character count and limit enforcement
 
 > 💡 Use the playground on the right to experiment with the code and reset any time.

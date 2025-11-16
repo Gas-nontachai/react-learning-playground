@@ -1,15 +1,75 @@
 # 2.1 useEffect
 
-Run side effects when state or props change.
+`useEffect` lets you run side effects after React updates the DOM: fetching data, syncing to localStorage, subscribing to events, etc.
 
-## Key ideas
-1. Connect the topic to the big picture of **Section 2 – Intermediate**
-2. Translate the new vocabulary into your own words to improve retention
-3. Read the code sample aloud so you can reason about each line
+<br />
+
+## Basic usage
+```jsx
+useEffect(() => {
+  // side effect
+  return () => {
+    // cleanup
+  };
+}, [dependencies]);
+```
+- The effect runs after the component renders
+- Dependencies decide when it runs again; empty array means “run once”
+- Return a cleanup function to unsubscribe timers, listeners, or abort fetches
+
+<br />
+
+## Example: sync document title
+
+```jsx
+import {useEffect, useState} from 'react';
+
+export default function FocusTimer() {
+  const [minutes, setMinutes] = useState(25);
+  const [isRunning, setIsRunning] = useState(false);
+
+  useEffect(() => {
+    document.title = isRunning
+      ? `🔴 Focus (${minutes}m left)`
+      : 'Focus timer';
+  }, [isRunning, minutes]);
+
+  useEffect(() => {
+    if (!isRunning) return;
+
+    const interval = window.setInterval(() => {
+      setMinutes((m) => Math.max(m - 1, 0));
+    }, 60000);
+
+    return () => window.clearInterval(interval);
+  }, [isRunning]);
+
+  return (
+    <div className="space-y-4 rounded-2xl border border-indigo-200 p-6">
+      <p className="text-5xl font-bold">{minutes}</p>
+      <button
+        className="rounded-full bg-indigo-600 px-4 py-2 text-white"
+        onClick={() => setIsRunning((prev) => !prev)}
+      >
+        {isRunning ? 'Pause' : 'Start'}
+      </button>
+    </div>
+  );
+}
+```
+
+<br />
+
+## Tips
+- Declare every reactive value used inside the effect in the dependency array
+- Split effects by purpose (fetch data vs. sync title) instead of cramming everything into one effect
+- For async operations, create an inner async function or use the promise directly inside the effect
+
+<br />
 
 ## Workshop
-- Modify the playground code and describe what changed
-- Write down any open questions you still have
-- Share your experiments with a study buddy or community
+- Build a component that listens to window resize or mouse movement and cleans up correctly
+- Persist form values to `localStorage` whenever they change
+- Practice debugging dependency arrays with ESLint’s exhaustive-deps rule enabled
 
 > 💡 Use the playground on the right to experiment with the code and reset any time.

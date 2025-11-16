@@ -1,15 +1,58 @@
-# 4.5 Routing pages
+# 4.5 Mini project – routing pages
 
-Add pages and navigation.
+Add multiple pages to your mini project so users can navigate between dashboards, detail views, and settings.
 
-## Key ideas
-1. Connect the topic to the big picture of **Section 4 – Mini Project**
-2. Translate the new vocabulary into your own words to improve retention
-3. Read the code sample aloud so you can reason about each line
+<br />
+
+## Tasks
+- Create subfolders under `app/(dashboard)/` for each page: `/overview`, `/lessons`, `/students`
+- Share navigation active states via `usePathname` or the `Link` component’s `aria-current`
+- Add dynamic routes for details (`/lessons/[slug]`, `/students/[id]`)
+
+<br />
+
+## Example: active nav link
+```tsx
+'use client';
+import Link from 'next/link';
+import {usePathname} from 'next/navigation';
+
+const links = [
+  {href: '/overview', label: 'Overview'},
+  {href: '/lessons', label: 'Lessons'},
+  {href: '/students', label: 'Students'}
+];
+
+export function Sidebar() {
+  const pathname = usePathname();
+
+  return (
+    <nav className="space-y-1">
+      {links.map((link) => {
+        const isActive = pathname.startsWith(link.href);
+        return (
+          <Link
+            key={link.href}
+            href={link.href}
+            className={[
+              'block rounded px-3 py-2 text-sm',
+              isActive ? 'bg-slate-900 text-white' : 'text-slate-600 hover:bg-slate-100'
+            ].join(' ')}
+          >
+            {link.label}
+          </Link>
+        );
+      })}
+    </nav>
+  );
+}
+```
+
+<br />
 
 ## Workshop
-- Modify the playground code and describe what changed
-- Write down any open questions you still have
-- Share your experiments with a study buddy or community
+- Implement breadcrumb navigation for nested routes
+- Add a catch-all route to display a helpful message for unknown sections
+- Prefetch important pages with `Link`’s `prefetch` to speed up navigation
 
 > 💡 Use the playground on the right to experiment with the code and reset any time.

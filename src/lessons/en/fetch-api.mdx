@@ -1,15 +1,94 @@
 # 2.2 Fetch API
 
-Fetch data from REST APIs and display it.
+Fetching data is one of the most common side effects. Combine `useEffect`, `fetch`, and state to handle loading, success, and error cases.
 
-## Key ideas
-1. Connect the topic to the big picture of **Section 2 – Intermediate**
-2. Translate the new vocabulary into your own words to improve retention
-3. Read the code sample aloud so you can reason about each line
+<br />
+
+## Data fetching checklist
+1. Track at least three states: `isLoading`, `error`, `data`
+2. Abort the request when the component unmounts or when dependencies change
+3. Show meaningful UI for loading and empty results
+
+<br />
+
+## Example: course list
+
+```jsx
+import {useEffect, useState} from 'react';
+
+export default function Courses() {
+  const [courses, setCourses] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<null | string>(null);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    async function load() {
+      try {
+        setIsLoading(true);
+        setError(null);
+
+        const response = await fetch('/api/courses', {
+          signal: controller.signal
+        });
+        if (!response.ok) throw new Error('Failed to load courses');
+
+        const data = await response.json();
+        setCourses(data);
+      } catch (err) {
+        if (err instanceof DOMException && err.name === 'AbortError') return;
+        setError((err as Error).message);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    load();
+    return () => controller.abort();
+  }, []);
+
+  if (isLoading) {
+    return <p className="text-slate-500">Loading courses...</p>;
+  }
+
+  if (error) {
+    return (
+      <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-800">
+        Failed to load: {error}
+      </div>
+    );
+  }
+
+  if (courses.length === 0) {
+    return <p>No courses yet. Create one!</p>;
+  }
+
+  return (
+    <ul className="space-y-3">
+      {courses.map((course: any) => (
+        <li key={course.id} className="rounded-xl border border-slate-200 p-4">
+          <h3 className="text-lg font-semibold">{course.title}</h3>
+          <p className="text-sm text-slate-600">{course.summary}</p>
+        </li>
+      ))}
+    </ul>
+  );
+}
+```
+
+<br />
+
+## Tips
+- Move fetch logic into dedicated hooks (`useCourses`) when several components need the same data
+- Memoize API URLs or params if they are computed to avoid accidental refetch loops
+- For server-rendered data (Next.js), prefer `fetch` in Server Components or `getServerSideProps` when possible
+
+<br />
 
 ## Workshop
-- Modify the playground code and describe what changed
-- Write down any open questions you still have
-- Share your experiments with a study buddy or community
+- Create a fake API using `setTimeout` to simulate latency and test loading states
+- Add pagination or search params and refetch when the user updates filters
+- Log network errors in the console and display user-friendly error messages in the UI
 
 > 💡 Use the playground on the right to experiment with the code and reset any time.

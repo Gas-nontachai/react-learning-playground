@@ -1,15 +1,34 @@
-# 4.6 Deploy to Vercel
+# 4.6 Mini project – deploy
 
-Deploy the mini project to Vercel.
+Ship the mini project so you can test real-world performance and collect feedback.
 
-## Key ideas
-1. Connect the topic to the big picture of **Section 4 – Mini Project**
-2. Translate the new vocabulary into your own words to improve retention
-3. Read the code sample aloud so you can reason about each line
+<br />
+
+## Pre-deploy checklist
+- Run `npm run lint` and `npm run test` (if available)
+- Fill in `.env.production` with API keys, then mark it in `.gitignore`
+- Update `README.md` with deployment instructions
+
+<br />
+
+## Deploying to Vercel
+1. Push your project to GitHub
+2. Create a new Vercel project and import the repo
+3. Configure environment variables under **Settings → Environment Variables**
+4. Trigger a production deploy and test the result
+
+<br />
+
+## Post-deploy tasks
+- Click through every page to confirm routing and data fetching works on the server
+- Monitor logs via Vercel’s dashboard to catch runtime errors
+- Share the URL with a friend and gather usability feedback
+
+<br />
 
 ## Workshop
-- Modify the playground code and describe what changed
-- Write down any open questions you still have
-- Share your experiments with a study buddy or community
+- Set up preview deployments for pull requests
+- Add a status badge or deployment link inside the repo
+- Practice rolling back to a previous deployment if you spot a bug
 
 > 💡 Use the playground on the right to experiment with the code and reset any time.

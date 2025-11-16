@@ -1,15 +1,73 @@
 # 1.7 Conditional rendering
 
-Render different UI based on conditions.
+React components often need to display different UI depending on state. Conditional rendering keeps the UI in sync with the data.
 
-## Key ideas
-1. Connect the topic to the big picture of **Section 1 – React Basics**
-2. Translate the new vocabulary into your own words to improve retention
-3. Read the code sample aloud so you can reason about each line
+<br />
+
+## Common patterns
+- `if` statements before the return to handle early exits (e.g. loading states)
+- Ternaries for inline variations: `{isOnline ? 'Online' : 'Offline'}`
+- Logical AND for optional sections: `{hasError && <ErrorBanner />}`
+
+<br />
+
+## Example: badge selector
+
+```jsx
+import {useState} from 'react';
+
+const badges = ['Beginner', 'Builder', 'Deployer'];
+
+export default function BadgeSelector() {
+  const [level, setLevel] = useState<string | null>(badges[0]);
+
+  const message = level
+    ? `Current badge: ${level}`
+    : 'Pick a badge to continue';
+
+  return (
+    <div className="space-y-4 rounded-2xl border border-blue-200 bg-white p-6">
+      <div className="flex gap-3">
+        {badges.map((badge) => (
+          <button
+            key={badge}
+            onClick={() => setLevel(level === badge ? null : badge)}
+            className={[
+              'rounded-full border px-3 py-1 text-sm',
+              badge === level
+                ? 'border-blue-600 bg-blue-600 text-white'
+                : 'border-slate-300 text-slate-600'
+            ].join(' ')}
+          >
+            {badge}
+          </button>
+        ))}
+      </div>
+
+      <p className="text-sm text-slate-600">{message}</p>
+
+      {level === 'Deployer' && (
+        <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-amber-900">
+          🚀 Extra tip: double-check environment variables before pushing live.
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+<br />
+
+## Tips
+- Extract conditional blocks into helper components if JSX becomes hard to read
+- Avoid deeply nested ternaries; prefer `if` statements to compute intermediate variables
+- Always cover the “empty state” scenario so users never see an empty screen
+
+<br />
 
 ## Workshop
-- Modify the playground code and describe what changed
-- Write down any open questions you still have
-- Share your experiments with a study buddy or community
+- Add loading, empty, success, and error states to your data-driven components
+- Practice toggling sections of the UI using booleans or derived state
+- Review your design system and list which components need conditional styles
 
 > 💡 Use the playground on the right to experiment with the code and reset any time.

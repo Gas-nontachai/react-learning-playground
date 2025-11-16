@@ -1,15 +1,45 @@
 # 5.2 Project structure tips
 
-Structuring real-world React/Next projects.
+Large projects evolve quickly. Establish conventions so everyone knows where to add new code without creating chaos.
 
-## Key ideas
-1. Connect the topic to the big picture of **Section 5 – Deploy & Best Practices**
-2. Translate the new vocabulary into your own words to improve retention
-3. Read the code sample aloud so you can reason about each line
+<br />
+
+## Layered approach
+- **app/** – routing and server-rendered entry points
+- **modules/** – domain-specific features (auth, billing, lessons)
+- **components/** – shared UI primitives
+- **lib/** – cross-cutting utilities (fetchers, analytics, feature flags)
+- **types/** – TypeScript declarations shared across modules
+
+<br />
+
+## Feature modules example
+```
+src/modules/lessons/
+├── api/
+│   └── getLessons.ts
+├── components/
+│   ├── LessonList.tsx
+│   └── LessonFilters.tsx
+├── hooks/
+│   └── useLessonFilters.ts
+└── index.ts
+```
+
+Expose only what other modules need via `index.ts`.
+
+<br />
+
+## Documentation
+- Maintain an architecture README describing folder responsibilities
+- Use code owners to auto-request reviews for sensitive areas
+- Automate lint rules (import order, path aliases) to enforce structure
+
+<br />
 
 ## Workshop
-- Modify the playground code and describe what changed
-- Write down any open questions you still have
-- Share your experiments with a study buddy or community
+- Refactor one domain into a dedicated module folder with its own entry point
+- Add path aliases (`@/modules/lessons`) to simplify imports
+- Document naming conventions (component suffixes, hook prefixes) in CONTRIBUTING.md
 
 > 💡 Use the playground on the right to experiment with the code and reset any time.

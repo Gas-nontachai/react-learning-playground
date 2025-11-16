@@ -525,80 +525,6 @@ export default function App() {
 }
 `;
 
-const deploySnippet = `const checklist = [
-  'Connect GitHub repo to Vercel',
-  'Set environment variables',
-  'Verify build output'
-];
-
-export default function App() {
-  return (
-    <ul className="space-y-3 p-6">
-      {checklist.map((item) => (
-        <li key={item} className="rounded-lg border border-sky-200 bg-sky-50 p-3 text-sky-900">
-          ✅ {item}
-        </li>
-      ))}
-    </ul>
-  );
-}
-`;
-
-const structureSnippet = `const folders = [
-  {name: 'src/app', tip: 'Route handlers & layouts'},
-  {name: 'src/components', tip: 'Reusable UI pieces'},
-  {name: 'src/lib', tip: 'Pure helpers & data'},
-  {name: 'src/lessons', tip: 'Localized MDX content'}
-];
-
-export default function App() {
-  return (
-    <div className="space-y-3 p-6">
-      {folders.map((folder) => (
-        <div key={folder.name} className="rounded border border-slate-200 p-3">
-          <p className="font-mono">{folder.name}</p>
-          <p className="text-sm text-slate-500">{folder.tip}</p>
-        </div>
-      ))}
-    </div>
-  );
-}
-`;
-
-const debuggingSnippet = `import {useState} from 'react';
-
-type Log = {
-  id: number;
-  message: string;
-};
-
-export default function App() {
-  const [logs, setLogs] = useState<Log[]>([]);
-
-  const addLog = () => {
-    setLogs((items) => [
-      ...items,
-      {id: Date.now(), message: ` + '`Checked component tree in React DevTools`' + `}
-    ]);
-  };
-
-  return (
-    <div className="space-y-4 p-6">
-      <button onClick={addLog} className="rounded bg-slate-900 px-4 py-2 text-white">
-        Add debug log
-      </button>
-      <ul className="space-y-2">
-        {logs.map((log) => (
-          <li key={log.id} className="rounded border border-slate-300 p-2 font-mono text-sm">
-            {log.message}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-`;
-
 function assign(slugs: string[], snippet?: string) {
   slugs.forEach((slug) => snippetMap.set(slug, snippet));
 }
@@ -623,9 +549,7 @@ assign(['organizing-files'], organizeSnippet);
 assign(['mini-setup', 'mini-ui-layout'], miniLayoutSnippet);
 assign(['mini-reuse'], componentSnippet);
 assign(['mini-routing'], miniRoutingSnippet);
-assign(['mini-deploy', 'deploy-vercel'], deploySnippet);
-assign(['project-structure'], structureSnippet);
-assign(['debugging'], debuggingSnippet);
+assign(['mini-deploy', 'deploy-vercel', 'project-structure', 'debugging']);
 
 export const lessons: Lesson[] = lessonsData.map((lesson) => {
   const snippet = snippetMap.get(lesson.slug);

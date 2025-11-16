@@ -1,15 +1,67 @@
 # 1.5 State & rerender
 
-Use useState to store info and trigger UI updates.
+State holds information that changes over time (input text, toggles, counts). Calling the setter triggers React to rerender the component with the new state.
 
-## Key ideas
-1. Connect the topic to the big picture of **Section 1 – React Basics**
-2. Translate the new vocabulary into your own words to improve retention
-3. Read the code sample aloud so you can reason about each line
+<br />
+
+## useState basics
+```jsx
+const [value, setValue] = useState(initialValue);
+```
+- The first render uses `initialValue`
+- `setValue` schedules a rerender with the next value
+- React batches multiple state updates inside events for performance
+
+<br />
+
+## Example: focus tracker
+
+```jsx
+import {useState} from 'react';
+
+export default function FocusTracker() {
+  const [count, setCount] = useState(0);
+  const [topic, setTopic] = useState('React fundamentals');
+
+  return (
+    <div className="space-y-6 rounded-2xl border border-purple-200 bg-white p-6 shadow">
+      <section>
+        <p className="text-sm uppercase tracking-wide text-purple-500">Deep work sessions</p>
+        <p className="text-5xl font-bold text-purple-800">{count}</p>
+        <button
+          className="mt-3 rounded-full bg-purple-600 px-4 py-2 text-white"
+          onClick={() => setCount((c) => c + 1)}
+        >
+          +1 session
+        </button>
+      </section>
+
+      <section>
+        <label className="text-sm text-slate-500">Current topic</label>
+        <input
+          value={topic}
+          onChange={(event) => setTopic(event.target.value)}
+          className="mt-2 w-full rounded-lg border border-slate-200 p-2"
+        />
+        <p className="mt-2 text-slate-600">You are focused on {topic}</p>
+      </section>
+    </div>
+  );
+}
+```
+
+<br />
+
+## Tips
+- Never mutate state directly (`count++`). Always call the setter with a new value
+- When the next value depends on the previous one, use the function form: `setCount((prev) => prev + 1)`
+- Keep state as minimal as possible. Derive values whenever they can be calculated from other state or props
+
+<br />
 
 ## Workshop
-- Modify the playground code and describe what changed
-- Write down any open questions you still have
-- Share your experiments with a study buddy or community
+- Convert a static UI into an interactive one by tracking at least two pieces of state
+- Visualize rerenders by logging inside the component or highlighting with CSS when state changes
+- Break a large component into smaller ones so only the part with state rerenders
 
 > 💡 Use the playground on the right to experiment with the code and reset any time.

@@ -1,15 +1,78 @@
-# 2.5 Props Drilling
+# 2.5 Props drilling & alternatives
 
-Explore the pain of passing props through many layers.
+Passing props through multiple layers becomes painful as the tree grows. Understand when prop drilling is fine and when to switch to context or composition.
 
-## Key ideas
-1. Connect the topic to the big picture of **Section 2 – Intermediate**
-2. Translate the new vocabulary into your own words to improve retention
-3. Read the code sample aloud so you can reason about each line
+<br />
+
+## When drilling is OK
+- Only one or two intermediate components
+- All layers need at least one of the props (e.g. layout controls styling)
+- Data is short-lived and specific to that branch
+
+## When to consider alternatives
+- Many unrelated props need to reach deep children
+- Sibling components require shared state (lifting up becomes complex)
+- You see prop names like `onChangeFromParent` in dozens of files
+
+<br />
+
+## Example: context for theme
+
+```jsx
+import {createContext, useContext, useState} from 'react';
+
+type Theme = 'light' | 'dark';
+
+const ThemeContext = createContext<{theme: Theme; toggle: () => void} | null>(null);
+
+function ThemeProvider({children}: {children: React.ReactNode}) {
+  const [theme, setTheme] = useState<Theme>('light');
+  const toggle = () => setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+
+  return (
+    <ThemeContext.Provider value={{theme, toggle}}>
+      <div className={theme === 'light' ? 'bg-white text-slate-900' : 'bg-slate-900 text-white'}>
+        {children}
+      </div>
+    </ThemeContext.Provider>
+  );
+}
+
+function ThemeToggleButton() {
+  const ctx = useContext(ThemeContext);
+  if (!ctx) throw new Error('Use inside ThemeProvider');
+
+  return (
+    <button onClick={ctx.toggle} className="rounded-full border px-3 py-1">
+      Switch to {ctx.theme === 'light' ? 'dark' : 'light'} mode
+    </button>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <div className="space-y-4 p-6">
+        <h1>Props Drilling Alternative</h1>
+        <ThemeToggleButton />
+      </div>
+    </ThemeProvider>
+  );
+}
+```
+
+<br />
+
+## Tips
+- Start with props first; reach for context or state libraries when you feel real pain
+- Custom hooks can hide prop drilling by encapsulating state + context usage
+- Composition (passing JSX) can remove the need for certain callbacks entirely
+
+<br />
 
 ## Workshop
-- Modify the playground code and describe what changed
-- Write down any open questions you still have
-- Share your experiments with a study buddy or community
+- Draw your component tree and highlight which props travel more than two levels
+- Refactor one branch to use context and compare the before/after code
+- Try passing a render prop instead of a callback for complex interactions
 
 > 💡 Use the playground on the right to experiment with the code and reset any time.

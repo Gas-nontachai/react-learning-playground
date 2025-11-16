@@ -1,15 +1,60 @@
 # 3.2 Dynamic params
 
-Build dynamic routes with parameters.
+Dynamic routes let you capture URL segments as parameters—perfect for profiles, lessons, or product detail pages.
 
-## Key ideas
-1. Connect the topic to the big picture of **Section 3 – Routing**
-2. Translate the new vocabulary into your own words to improve retention
-3. Read the code sample aloud so you can reason about each line
+<br />
+
+## Folder syntax
+- `[slug]/page.tsx` → `/lessons/my-first-component`
+- Multiple params: `[course]/lessons/[lesson]/page.tsx`
+- Catch-all: `[...segments]/page.tsx`
+
+Next.js passes parameters to your component via the `params` prop.
+
+<br />
+
+## Example: lesson details
+
+```tsx
+// app/lessons/[slug]/page.tsx
+import {notFound} from 'next/navigation';
+import {lessonContent} from '@/lessons/registry';
+
+const lessons = {
+  'react-intro': {title: 'React intro', summary: 'Why React exists'},
+  'jsx': {title: 'JSX', summary: 'Writing UI in JavaScript'}
+};
+
+type Props = {
+  params: {slug: keyof typeof lessons};
+};
+
+export default function LessonPage({params}: Props) {
+  const lesson = lessons[params.slug];
+  if (!lesson) notFound();
+
+  return (
+    <article className="space-y-3">
+      <p className="text-sm uppercase text-slate-400">Lesson</p>
+      <h1 className="text-3xl font-bold">{lesson.title}</h1>
+      <p className="text-slate-600">{lesson.summary}</p>
+    </article>
+  );
+}
+```
+
+<br />
+
+## Tips
+- Validate params before using them to avoid crashes
+- Use the `generateStaticParams` export to pre-render popular routes at build time
+- Combine dynamic routes with `notFound()` or `redirect()` for better UX
+
+<br />
 
 ## Workshop
-- Modify the playground code and describe what changed
-- Write down any open questions you still have
-- Share your experiments with a study buddy or community
+- Create a dynamic route for `/students/[id]` and fetch the profile using the param
+- Add error handling for invalid params (show 404 when data is missing)
+- Experiment with nested dynamic routes for course → lesson hierarchies
 
 > 💡 Use the playground on the right to experiment with the code and reset any time.

@@ -1,15 +1,60 @@
-# 4.3 Fetch API
+# 4.3 Mini project – fetch real data
 
-Load real data into the UI.
+Connect your layout to real data sources so charts and lists become meaningful.
 
-## Key ideas
-1. Connect the topic to the big picture of **Section 4 – Mini Project**
-2. Translate the new vocabulary into your own words to improve retention
-3. Read the code sample aloud so you can reason about each line
+<br />
+
+## Options
+- Use the mock data file from setup and expose it via `app/api/*.ts`
+- Call third-party APIs (Supabase, Firebase, JSONPlaceholder) if you prefer
+- For secure data, fetch inside Server Components and pass results down as props
+
+<br />
+
+## Example API route
+```ts
+// src/app/api/students/route.ts
+import {NextResponse} from 'next/server';
+import {students} from '@/lib/data';
+
+export async function GET() {
+  return NextResponse.json(students);
+}
+```
+
+### Example client component
+```tsx
+'use client';
+import useSWR from 'swr';
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+export function StudentsList() {
+  const {data, error, isLoading} = useSWR('/api/students', fetcher);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Failed to load students</p>;
+
+  return (
+    <ul className="space-y-3">
+      {data.map((student: any) => (
+        <li key={student.id} className="rounded-xl border border-slate-200 p-4">
+          <div className="flex items-center justify-between">
+            <p className="font-medium">{student.name}</p>
+            <span className="text-sm text-slate-500">{student.progress}%</span>
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
+}
+```
+
+<br />
 
 ## Workshop
-- Modify the playground code and describe what changed
-- Write down any open questions you still have
-- Share your experiments with a study buddy or community
+- Wire at least two sections of your dashboard to live data
+- Handle loading/error states with friendly UI copy
+- Cache responses (SWR/React Query) or use server-side fetching for SSR pages
 
 > 💡 Use the playground on the right to experiment with the code and reset any time.

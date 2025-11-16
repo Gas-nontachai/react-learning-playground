@@ -1,15 +1,53 @@
-# 3.3 Not Found Page
+# 3.3 Not Found pages
 
-Implement 404 handling in the App Router.
+A good 404 page helps users recover when they visit a route that doesn’t exist. In the App Router you can create `not-found.tsx` inside any route folder.
 
-## Key ideas
-1. Connect the topic to the big picture of **Section 3 – Routing**
-2. Translate the new vocabulary into your own words to improve retention
-3. Read the code sample aloud so you can reason about each line
+<br />
+
+## How it works
+- Throw `notFound()` inside `page.tsx` to render that folder’s `not-found.tsx`
+- Add a global `not-found.tsx` in `app/` for fallback
+- Provide links back to a safe location or a search bar
+
+<br />
+
+## Example
+
+```tsx
+// app/lessons/not-found.tsx
+import Link from 'next/link';
+
+export default function LessonsNotFound() {
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center">
+      <p className="text-sm uppercase tracking-wide text-slate-400">404</p>
+      <h1 className="text-3xl font-bold">Lesson not found</h1>
+      <p className="mt-2 text-slate-600">
+        The lesson you are looking for might have been renamed. Pick another one from the list.
+      </p>
+      <Link
+        href="/lessons"
+        className="mt-4 inline-flex rounded-full bg-slate-900 px-4 py-2 text-white"
+      >
+        Back to lessons
+      </Link>
+    </div>
+  );
+}
+```
+
+<br />
+
+## Tips
+- Mention what went wrong and offer actionable steps (search, contact support, go home)
+- Log 404 events if they happen frequently—maybe update your redirects
+- Keep the tone friendly; a little personality goes a long way
+
+<br />
 
 ## Workshop
-- Modify the playground code and describe what changed
-- Write down any open questions you still have
-- Share your experiments with a study buddy or community
+- Build a custom 404 for one route branch and trigger it via `notFound()`
+- Add analytics logging to track missing URLs
+- Design a “recently visited” or “recommended content” section to keep users engaged
 
 > 💡 Use the playground on the right to experiment with the code and reset any time.

@@ -1,15 +1,63 @@
 # 1.4 Props
 
-Pass data into components through props.
+Props are how components receive data from their parents. They make components flexible because the same component can render different UI depending on the props you pass in.
 
-## Key ideas
-1. Connect the topic to the big picture of **Section 1 – React Basics**
-2. Translate the new vocabulary into your own words to improve retention
-3. Read the code sample aloud so you can reason about each line
+<br />
+
+## How props work
+1. Parent renders `<Greeting name="Beam" mood="curious" />`
+2. Child component receives those props as a function parameter
+3. Destructure the props for clarity and optionally provide default values
+
+<br />
+
+## Example: Greeting component
+
+```jsx
+type GreetingProps = {
+  name: string;
+  mood?: 'curious' | 'focused' | 'relaxed';
+};
+
+function Greeting({name, mood = 'focused'}: GreetingProps) {
+  return (
+    <section className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-emerald-900">
+      <h3 className="text-lg font-semibold">Hello {name} 👋</h3>
+      <p className="text-sm">Today's mood: {mood}</p>
+    </section>
+  );
+}
+
+export default function App() {
+  const students = [
+    {id: 1, name: 'Mint', mood: 'curious'},
+    {id: 2, name: 'Beam', mood: 'relaxed'},
+    {id: 3, name: 'Nam'} // falls back to default
+  ];
+
+  return (
+    <div className="space-y-3">
+      {students.map((student) => (
+        <Greeting key={student.id} {...student} />
+      ))}
+    </div>
+  );
+}
+```
+
+<br />
+
+## Best practices
+- Use TypeScript (or PropTypes) to document expected props
+- Pass only what the child needs; avoid dumping entire objects if only two fields are used
+- If a prop name becomes too generic (e.g. `data` or `item`), rename it to reflect its purpose (`lesson`, `todo`, `article`)
+
+<br />
 
 ## Workshop
-- Modify the playground code and describe what changed
-- Write down any open questions you still have
-- Share your experiments with a study buddy or community
+- Convert hard-coded values in your component into props and render multiple variations
+- Add a boolean prop (e.g. `featured`) and conditionally style the component
+- Try passing functions via props for “child triggers parent update” scenarios
+- Note down any prop drilling pain—this will connect to later lessons on composition and context
 
 > 💡 Use the playground on the right to experiment with the code and reset any time.

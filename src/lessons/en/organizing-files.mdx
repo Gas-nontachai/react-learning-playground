@@ -1,15 +1,53 @@
-# 3.4 Organizing Files
+# 3.4 Organizing files
 
-Organize app/ routes and component folders.
+A clean folder structure keeps your team productive. Group related components, hooks, and utilities close to the routes that use them.
 
-## Key ideas
-1. Connect the topic to the big picture of **Section 3 – Routing**
-2. Translate the new vocabulary into your own words to improve retention
-3. Read the code sample aloud so you can reason about each line
+<br />
+
+## Suggested structure
+```
+src/
+├── app/
+│   ├── (marketing)/
+│   │   └── page.tsx
+│   ├── (dashboard)/
+│   │   ├── layout.tsx
+│   │   ├── lessons/
+│   │   │   ├── page.tsx
+│   │   │   └── LessonList.tsx
+│   │   └── students/
+│   │       └── page.tsx
+│   └── api/
+├── components/
+│   ├── ui/Button.tsx
+│   └── lesson/LessonCard.tsx
+├── hooks/
+│   └── useLessons.ts
+└── lib/
+    └── fetcher.ts
+```
+
+<br />
+
+## Principles
+- **Feature-first**: keep all files related to one feature together, even if they mix UI and logic
+- **Colocation**: components that are only used inside a route should live next to that route
+- **Barrel files**: create `index.ts` to re-export related utilities and keep imports short
+
+<br />
+
+## Example: barrel file
+```ts
+// src/components/lesson/index.ts
+export {LessonCard} from './LessonCard';
+export {LessonHeader} from './LessonHeader';
+```
+
+<br />
 
 ## Workshop
-- Modify the playground code and describe what changed
-- Write down any open questions you still have
-- Share your experiments with a study buddy or community
+- Audit your project and identify folders with too many responsibilities
+- Move route-specific components into the relevant `app/` subfolder
+- Create barrel files for common UI components to simplify imports
 
 > 💡 Use the playground on the right to experiment with the code and reset any time.
