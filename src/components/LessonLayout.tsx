@@ -2,11 +2,13 @@
 
 import Link from 'next/link';
 import clsx from 'clsx';
-import { type ReactNode, useState } from 'react';
+import { type ReactNode, useRef, useState } from 'react';
 import { Playground } from './Playground';
 import type { Lesson } from '@/lib/lessons-config';
 import type { Locale } from '@/lib/i18n';
 import { ProgressAction } from './ProgressAction';
+import { TextToSpeechControl } from './TextToSpeechControl';
+import { ExpandIcon } from '@/components/icon/ExpandIcon';
 
 interface LessonLayoutProps {
   locale: Locale;
@@ -18,6 +20,7 @@ interface LessonLayoutProps {
 
 export function LessonLayout({ locale, lesson, children, previous, next }: LessonLayoutProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const toggleCollapsed = () => setIsCollapsed((current) => !current);
   const playgroundCode = lesson.defaultCode;
@@ -98,8 +101,11 @@ export function LessonLayout({ locale, lesson, children, previous, next }: Lesso
                 <p className="text-base leading-relaxed text-slate-600 dark:text-slate-300">
                   {lesson.summary[locale]}
                 </p>
+                <div className="pt-2">
+                  <TextToSpeechControl contentRef={contentRef} locale={locale} />
+                </div>
               </header>
-              <div className="prose prose-slate mt-4 max-w-none dark:prose-invert">
+              <div ref={contentRef} className="prose prose-slate mt-4 max-w-none dark:prose-invert">
                 {children}
               </div>
             </>
@@ -118,24 +124,5 @@ export function LessonLayout({ locale, lesson, children, previous, next }: Lesso
         )}
       </div>
     </div>
-  );
-}
-
-function ExpandIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-    >
-      <path d="M15.5 3.5h5v5" />
-      <path d="M21 3l-6 6" />
-      <path d="M8.5 20.5h-5v-5" />
-      <path d="M3 21l6-6" />
-    </svg>
   );
 }
