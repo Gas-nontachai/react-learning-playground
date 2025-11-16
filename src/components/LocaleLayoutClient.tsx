@@ -3,6 +3,7 @@
 import { ReactNode, useState } from 'react';
 import clsx from 'clsx';
 import type { Locale } from '@/lib/i18n';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image'
 import { Sidebar } from '@/components/Sidebar';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -17,6 +18,7 @@ type LocaleLayoutClientProps = {
 
 export function LocaleLayoutClient({ locale, appTitle, children }: LocaleLayoutClientProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const router = useRouter();
 
   const toggleSidebar = () => setIsSidebarOpen((open) => !open);
   const closeSidebar = () => setIsSidebarOpen(false);
@@ -64,14 +66,18 @@ export function LocaleLayoutClient({ locale, appTitle, children }: LocaleLayoutC
 
             <div className='hidden lg:block'>
               <p className="text-sm text-slate-500 dark:text-slate-400">React Learning Playground</p>
-              <p className="text-lg font-semibold">{appTitle}</p>
+              <p className="text-lg font-semibold cursor-pointer hover:underline"
+                onClick={() => router.push(`/${locale}`)}
+              >{appTitle}</p>
             </div>
             <div className='block lg:hidden'>
               <Image
+                className='cursor-pointer'
                 src={LogoImg}
                 width={30}
                 height={30}
                 alt="React Learning Playground Logo"
+                onClick={() => router.push(`/${locale}`)}
               />
             </div>
           </div>
