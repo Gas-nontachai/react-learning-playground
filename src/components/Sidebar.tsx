@@ -16,7 +16,7 @@ type SidebarProps = ComponentProps<'aside'> & {
 export function Sidebar({locale, className, ...props}: SidebarProps) {
   const pathname = usePathname();
   const [query, setQuery] = useState('');
-  const {completed, resetProgress} = useProgress();
+  const {completed} = useProgress();
   const tSidebar = useTranslations('sidebar');
 
   const activeSlug = useMemo(() => {
@@ -91,7 +91,6 @@ export function Sidebar({locale, className, ...props}: SidebarProps) {
         ))}
       </div>
       <button
-        onClick={resetProgress}
         className="rounded-md border border-slate-200 px-3 py-2 text-xs text-slate-600 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
       >
         {tSidebar('completed')} · {completed.length}
