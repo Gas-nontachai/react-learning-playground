@@ -1,5 +1,6 @@
 import type { ComponentPropsWithoutRef, ComponentType, ReactNode } from 'react';
 import clsx from 'clsx';
+import {CodeBlock} from '@/components/mdx/CodeBlock';
 
 export type MDXComponents = Record<string, ComponentType<{ children?: ReactNode }>>;
 
@@ -71,16 +72,7 @@ const baseComponents: MDXComponents = {
       )}
     />
   ),
-  pre: ({ className, ...props }: NativeProps<'pre'>) => (
-    <pre
-      style={{ overflowX: 'auto' }}
-      {...props}
-      className={clsx(
-        'rounded-xl border border-slate-200 bg-slate-900 p-4 text-sm text-slate-100 dark:border-slate-700',
-        className
-      )}
-    />
-  ),
+  pre: (props: NativeProps<'pre'>) => <CodeBlock {...props} />,
   blockquote: ({ className, ...props }: NativeProps<'blockquote'>) => (
     <blockquote
       {...props}
